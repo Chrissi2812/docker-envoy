@@ -1,6 +1,7 @@
 # Install stuff
 apt-get update && apt-get install -y --no-install-recommends -qq \
  curl \
+ git \
  openssh-client \
  libjpeg-dev \
  libpng-dev \
