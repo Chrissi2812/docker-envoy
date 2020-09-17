@@ -3,6 +3,7 @@ apt-get update && apt-get install -y --no-install-recommends -qq \
  curl \
  git \
  openssh-client \
+ libicu-dev \
  libjpeg-dev \
  libpng-dev \
  libfreetype6-dev \
@@ -12,16 +13,16 @@ apt-get update && apt-get install -y --no-install-recommends -qq \
  libzip-dev
 
 # Install ssh server
-apt-get install -y --no-install-recommends pwgen openssl
+apt-get install -y --no-install-recommends pwgen openssl ´
 
 # disable warning about COMPOSer running as root
 export COMPOSER_ALLOW_SUPERUSER=1
 
 # Configure php extensions
-docker-php-ext-configure zip --with-libzip
+docker-php-ext-configure intl zip --with-libzip
 
 # Install php extensions
-docker-php-ext-install pdo_mysql zip
+docker-php-ext-install pdo_mysql zip intl
 
 # Use Production php settings
 mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
