@@ -21,17 +21,17 @@ jobs:
           version: latest
       - name: login to docker hub
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
-      - name: publish latest image when pushed to master
+      - name: publish tagged release
         if: ${{ github.ref_type == 'tag' }}
         run: |
           docker buildx build \
-            --tag chrissi2812/cors-anywhere:${{ github.ref_name }} \
+            --tag chrissi2812/laravel-envoy:${{ github.ref_name }} \
             --push \
-            --platform linux/amd64,linux/arm/v7,linux/arm64 .
-      - name: publish latest image when pushed to master
+            --platform linux/amd64 .
+      - name: publish latest image
         if: ${{ github.ref_type == 'branch' }}
         run: |
           docker buildx build \
-            --tag chrissi2812/cors-anywhere:latest \
+            --tag chrissi2812/laravel-envoyr:latest \
             --push \
-            --platform linux/amd64,linux/arm/v7,linux/arm64 .
+            --platform linux/amd64 .
