@@ -1,0 +1,37 @@
+name: build our image
+
+on:    
+  push:
+    tags: [ 'v*.*.*' ]
+    branches: ["master"]
+
+env: 
+  TAG: ${{ github.ref_name }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v3
+      - name: install buildx
+        id: buildx
+        uses: crazy-max/ghaction-docker-buildx@v1
+        with:
+          version: latest
+      - name: login to docker hub
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+      - name: publish latest image when pushed to master
+        if: ${{ github.ref_type == 'tag' }}
+        run: |
+          docker buildx build \
+            --tag chrissi2812/cors-anywhere:${{ github.ref_name }} \
+            --push \
+            --platform linux/amd64,linux/arm/v7,linux/arm64 .
+      - name: publish latest image when pushed to master
+        if: ${{ github.ref_type == 'branch' }}
+        run: |
+          docker buildx build \
+            --tag chrissi2812/cors-anywhere:latest \
+            --push \
+            --platform linux/amd64,linux/arm/v7,linux/arm64 .
