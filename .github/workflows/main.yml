@@ -1,13 +1,13 @@
 name: build our image
 
-on:    
+on:
   push:
     tags: [ 'v*.*.*' ]
     branches: ["master"]
   pull_request:
     branches: [ "master" ]
 
-env: 
+env:
   TAG: ${{ github.ref_name }}
 
 jobs:
@@ -27,7 +27,6 @@ jobs:
         if: ${{ github.event_name == 'pull_request' }}
         run: |
           docker buildx build \
-            --tag chrissi2812/laravel-envoy:${{ github.ref_name }} \
             --platform linux/amd64 .
       - name: publish tagged release
         if: ${{ github.ref_type == 'tag' && github.event_name != 'pull_request' }}
