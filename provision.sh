@@ -13,9 +13,9 @@ apt-get update && apt-get install -y --no-install-recommends -qq \
  libzip-dev
 
 # Install ssh server
-apt-get install -y --no-install-recommends pwgen openssl ´
+apt-get install -y --no-install-recommends pwgen openssl
 
-# disable warning about COMPOSer running as root
+# disable warning about Composer running as root
 export COMPOSER_ALLOW_SUPERUSER=1
 
 # Configure php extensions
